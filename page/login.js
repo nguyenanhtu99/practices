@@ -66,75 +66,16 @@ export default class Login extends React.Component {
   render(){
     return (
       <View style={styles.container}>
-        <ImageBackground source={require('../images/bg_9.jpg')} style={styles.backgroundImage} >
-          <View style={styles.contentView}>
-          <Input
-            placeholder='Tên đăng nhập'
-            leftIcon={
-              <Icon
-                name='user'
-                size={24}
-                color={BASIC_COLOR}
-              />
-            }
-            onChangeText={value => {
-              this.setState({name: value})
-            }}
-            autoCapitalize="none"
-            inputStyle={{color: BASIC_COLOR}}
-            value={this.state.name}
-          />  
-
-          <Input
-            placeholder='Mật khẩu'
-            leftIcon={
-              <Icon
-                name='key'
-                size={24}
-                color={BASIC_COLOR}
-              />
-            }
-            secureTextEntry={true}
-            onChangeText={value => {
-              this.setState({password: value})
-            }}
-            autoCapitalize="none"
-            inputStyle={{color: BASIC_COLOR}}
-            value={this.state.password}
-          />  
+        <View>
+          <Text
+            style={{color: 'white', fontSize: 40, fontWeight: 'bold', fontStyle: 'italic', paddingBottom: 70, padding: 30}}
+          >
+            Traceability
+          </Text>
         </View>
         <View style={styles.buttonView}>
-        <Button
-            icon={
-              <Icon
-                name="sign-in"
-                size={30}
-                color="white"
-              />
-            }
-            title='Đăng nhập'
-            type='outline'
-            titleStyle={{color: 'white', fontSize: 20, padding: 30}}
-            buttonStyle={{borderRadius: 50, borderColor: 'white', borderWidth: 1}}
-            onPress={this.onSubmit}
-            containerStyle={{padding: 5}}
-        />
-        <Button
-            icon={
-              <Icon
-                name="google"
-                size={30}
-                color="white"
-              />
-            }
-            title='Google'
-            titleStyle={{color: 'white', fontSize: 20, padding: 10}}
-            buttonStyle={{borderRadius: 50, borderColor: 'white', borderWidth: 1, backgroundColor: '#e31212'}}
-            onPress={() => this.props.navigation.navigate("LoginWithGoogle")}
-            containerStyle={{padding: 5}}
-        />
-        <Text style={{color: 'white', alignSelf: 'center'}}>----- OR -----</Text>
-        <Button
+
+        {/* <Button
             icon={
               <Icon
                 name="user-plus"
@@ -148,14 +89,78 @@ export default class Login extends React.Component {
             buttonStyle={{borderRadius: 50, borderColor: 'white', borderWidth: 1}}
             onPress={() => this.props.navigation.navigate("Sign Up")}
             containerStyle={{padding: 5}}
-        />
+        /> */}
         </View>
-        <TouchableOpacity onPress={() => {
-          this.props.navigation.navigate("Reset Password")
-          }}>
-          <Text style={{color: 'white', borderBottomWidth: 1, borderColor: 'white'}}>Quên mật khẩu?</Text>
-        </TouchableOpacity>
-        </ImageBackground>
+        {/* <ImageBackground source={require('../images/bg_9.jpg')} style={styles.backgroundImage} > */}
+          <View style={styles.contentView}>
+            <Text style={{fontSize: 30, fontWeight: 'bold', alignSelf: 'center', padding: 20}}>
+              Login
+            </Text>
+            <Input
+              placeholder='Name'
+              leftIcon={
+                <Icon
+                  name='user'
+                  size={24}
+                  color={BASIC_COLOR}
+                />
+              }
+              onChangeText={value => {
+                this.setState({name: value})
+              }}
+              autoCapitalize="none"
+              // inputStyle={{color: BASIC_COLOR}}
+              value={this.state.name}
+            />  
+
+            <Input
+              placeholder='Password'
+              leftIcon={
+                <Icon
+                  name='key'
+                  size={24}
+                  color={BASIC_COLOR}
+                />
+              }
+              secureTextEntry={true}
+              onChangeText={value => {
+                this.setState({password: value})
+              }}
+              autoCapitalize="none"
+              // inputStyle={{color: BASIC_COLOR}}
+              value={this.state.password}
+            />
+            <TouchableOpacity onPress={() => {
+              this.props.navigation.navigate("Reset Password")
+              }}>
+              <Text style={{alignSelf: 'flex-end', padding: 5}}>Forgot Password?</Text>
+            </TouchableOpacity>
+            <Button
+              icon={
+                <Icon
+                  name="sign-in"
+                  size={30}
+                  color="white"
+                />
+              }
+              title='Sign in'
+              // type='outline'
+              titleStyle={{color: 'white', fontSize: 20, padding: 10}}
+              buttonStyle={{borderRadius: 50, backgroundColor: BASIC_COLOR}}
+              onPress={this.onSubmit}
+              containerStyle={{paddingLeft: 40, paddingRight: 40, paddingBottom: 30, paddingTop: 20}}
+            />
+        </View>
+        <View style={{position: 'absolute', bottom: 0, padding: 20}}>
+          <TouchableOpacity onPress={() => {
+              this.props.navigation.navigate("Sign Up")
+            }}>
+            <Text>Don't have an account? Sign up</Text>
+          </TouchableOpacity>
+        </View>
+        
+        
+        {/* </ImageBackground> */}
       </View>
     );
   }
@@ -164,6 +169,8 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    backgroundColor: BASIC_COLOR
   },
   backgroundImage:{
     width: "100%",
@@ -172,11 +179,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentView: {
-    marginTop: '25%',
-    paddingTop: '5%',
     width: '85%',
     backgroundColor: 'white',
-    borderRadius: 10
+    borderRadius: 10,
+    padding: 10,
+    position: 'absolute',
+    top: 110,
+    shadowColor: BASIC_COLOR,
+    shadowOffset: {
+      width: 5,
+      height: 5
+    },
+    shadowOpacity: 0.2,
+    elevation: 20,
   },
   logo:{
     resizeMode: "contain",
@@ -185,7 +200,11 @@ const styles = StyleSheet.create({
     borderRadius: 100
   },
   buttonView: {
-    width: '80%',
+    backgroundColor: '#f2f2f2',
+    // position: 'absolute',
+    width: '150%',
+    height: '150%',
+    borderRadius: 200
   }
   
 });
