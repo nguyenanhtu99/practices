@@ -48,13 +48,6 @@ export default class Login extends React.Component {
           },
         })
     }
-    // this.props.navigation.navigate('Chat', {data: {
-    //   senderId: "9da9f85e-430f-4933-9b91-0baf13738fe5",
-    //   recipientId: "fdeb74ff-fc7d-4862-bd9c-e11eab3b43eb",
-    //   senderName: 'anhtu',
-    //   recipientName: 'admin',
-    //   recipientAvatar: "https://lh3.googleusercontent.com/a-/AOh14GgEAEEDHP5exiCuaAN6hHu0NQo1_hJPrklmisW4Yw=s96-c?fbclid=IwAR0FSGYhGggk7l9CeNGMMz8mtASt5e9KqmZy0XAoAzabYh1f8gf4cGjNw6g"
-    // }});
   }
 
   UNSAFE_componentWillReceiveProps = () => {
@@ -73,27 +66,12 @@ export default class Login extends React.Component {
             Traceability
           </Text>
         </View>
-        <View style={styles.buttonView}>
 
-        {/* <Button
-            icon={
-              <Icon
-                name="user-plus"
-                size={25}
-                color="white"
-              />
-            }
-            title='Đăng ký'
-            type='outline'
-            titleStyle={{color: 'white', fontSize: 20, padding: 30}}
-            buttonStyle={{borderRadius: 50, borderColor: 'white', borderWidth: 1}}
-            onPress={() => this.props.navigation.navigate("Sign Up")}
-            containerStyle={{padding: 5}}
-        /> */}
+        <View style={styles.grayView}>
         </View>
-        {/* <ImageBackground source={require('../images/bg_9.jpg')} style={styles.backgroundImage} > */}
+
           <View style={styles.contentView}>
-            <Text style={{fontSize: 30, fontWeight: 'bold', alignSelf: 'center', padding: 20}}>
+            <Text style={{fontSize: 30, fontWeight: 'bold', alignSelf: 'center', padding: 30}}>
               Login
             </Text>
             <Input
@@ -109,7 +87,6 @@ export default class Login extends React.Component {
                 this.setState({name: value})
               }}
               autoCapitalize="none"
-              // inputStyle={{color: BASIC_COLOR}}
               value={this.state.name}
             />  
 
@@ -127,7 +104,6 @@ export default class Login extends React.Component {
                 this.setState({password: value})
               }}
               autoCapitalize="none"
-              // inputStyle={{color: BASIC_COLOR}}
               value={this.state.password}
             />
             <TouchableOpacity onPress={() => {
@@ -144,7 +120,6 @@ export default class Login extends React.Component {
                 />
               }
               title='Sign in'
-              // type='outline'
               titleStyle={{color: 'white', fontSize: 20, padding: 10}}
               buttonStyle={{borderRadius: 50, backgroundColor: BASIC_COLOR}}
               onPress={this.onSubmit}
@@ -158,9 +133,6 @@ export default class Login extends React.Component {
             <Text>Don't have an account? Sign up</Text>
           </TouchableOpacity>
         </View>
-        
-        
-        {/* </ImageBackground> */}
       </View>
     );
   }
@@ -181,7 +153,7 @@ const styles = StyleSheet.create({
   contentView: {
     width: '85%',
     backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 10,
     position: 'absolute',
     top: 110,
@@ -199,12 +171,11 @@ const styles = StyleSheet.create({
     height: "30%",
     borderRadius: 100
   },
-  buttonView: {
+  grayView: {
     backgroundColor: '#f2f2f2',
-    // position: 'absolute',
-    width: '150%',
+    width: '160%',
     height: '150%',
-    borderRadius: 200
+    borderRadius: 250
   }
   
 });
