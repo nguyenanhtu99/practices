@@ -87,9 +87,9 @@ class QrCodeCamera extends Component {
         }
     } catch (err) {
       showMessage({
-        message: "Quét mã không thành công !",
+        message: "Ошибка сканирования кода !",
         type: 'danger',
-        description: "Mã QR không đúng. Hãy thử lại.",
+        description: "QR-код неверен. Попробуйте еще раз.",
         duration: 5000,
         floating: true,
         icon: {
@@ -146,16 +146,16 @@ class QrCodeCamera extends Component {
       console.log("OneSignal: notification will show in foreground:", notificationReceivedEvent);
       let notification = notificationReceivedEvent.getNotification();
 
-      showMessage({
-        message: 'Thông báo',
-        type: 'info',
-        description: `${notification.title}: ${notification.body}`,
-        duration: 5000,
-        floating: true,
-        icon: {
-          icon: 'info', position: "right"
-        },
-      })
+      // showMessage({
+      //   message: 'Thông báo',
+      //   type: 'info',
+      //   description: `${notification.title}: ${notification.body}`,
+      //   duration: 5000,
+      //   floating: true,
+      //   icon: {
+      //     icon: 'info', position: "right"
+      //   },
+      // })
     });
 
   }
@@ -179,7 +179,7 @@ class QrCodeCamera extends Component {
             <View style={styles.rectangleContainer}>
               <View style={styles.topOverlay}>
                 <Text style={{fontSize: 15, color: "white", fontStyle: 'italic', padding: 10, width: '100%', textAlign: 'center' }}>
-                Di chuyển vùng quét đến vị trí mã QR 
+                  Переместите область сканирования в положение QR-кода
                 </Text>
               </View>
 
@@ -216,16 +216,16 @@ class QrCodeCamera extends Component {
                       color={BASIC_COLOR}
                     />
                   }
-                  title='Nhấn để bật camera'
+                  title='Нажмите, чтобы включить камеру'
                   type='outline'
-                  titleStyle={{color: BASIC_COLOR, fontSize: 20, padding: 10}}
-                  buttonStyle={{borderColor: 'white'}}
+                  titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 5}}
+                  buttonStyle={{borderColor: BASIC_COLOR}}
                   onPress={() => this.setState({ scan: true })}
                 />
           </View>
         )
         }
-        <View style={styles.listView}> 
+        {/* <View style={styles.listView}> 
             <TouchableOpacity style={styles.viewIcon} onPress={() => this.pressSearchProduct()}>
               <Icon name="search" style={styles.icon} size={40}></Icon>
               <Text style={styles.textIcon}>Tìm kiếm</Text>
@@ -238,7 +238,7 @@ class QrCodeCamera extends Component {
               <Icon name="history" style={styles.icon} size={40}></Icon>
               <Text style={styles.textIcon}>Lịch sử</Text>
             </TouchableOpacity>
-        </View>
+        </View> */}
 
       </View>
     );
@@ -280,7 +280,7 @@ const styles = {
     backgroundColor: overlayColor,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: -80
+    // marginBottom: -80
   },
 
   bottomOverlay: {
@@ -288,7 +288,7 @@ const styles = {
     height: SCREEN_WIDTH,
     width: SCREEN_WIDTH,
     backgroundColor: overlayColor,
-    paddingBottom: SCREEN_WIDTH * 0.25
+    paddingBottom: SCREEN_WIDTH * 0.05
   },
 
   leftAndRightOverlay: {
