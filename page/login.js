@@ -61,7 +61,7 @@ export default class Login extends React.Component {
       <View style={styles.container}>
         <View>
           <Text
-            style={{color: 'white', fontSize: 40, fontWeight: 'bold', fontStyle: 'italic', paddingBottom: 70, padding: 30}}
+            style={{color: 'white', fontSize: 40, fontWeight: 'bold', fontStyle: 'italic', paddingBottom: 70, padding: 30, fontFamily: 'serif'}}
           >
             Traceability
           </Text>
@@ -109,7 +109,7 @@ export default class Login extends React.Component {
             <TouchableOpacity onPress={() => {
               this.props.navigation.navigate("Reset Password")
               }}>
-              <Text style={{alignSelf: 'flex-end', padding: 5}}>Forgot Password?</Text>
+              <Text style={{alignSelf: 'flex-end', padding: 5, textDecorationLine: 'underline'}}>Forgot Password?</Text>
             </TouchableOpacity>
             <Button
               icon={
@@ -120,7 +120,7 @@ export default class Login extends React.Component {
                 />
               }
               title='Sign in'
-              titleStyle={{color: 'white', fontSize: 20, padding: 10}}
+              titleStyle={{color: 'white', fontSize: 20, padding: 20}}
               buttonStyle={{borderRadius: 50, backgroundColor: BASIC_COLOR}}
               onPress={this.onSubmit}
               containerStyle={{paddingLeft: 40, paddingRight: 40, paddingBottom: 30, paddingTop: 20}}
@@ -130,7 +130,7 @@ export default class Login extends React.Component {
           <TouchableOpacity onPress={() => {
               this.props.navigation.navigate("Sign Up")
             }}>
-            <Text>Don't have an account? Sign up</Text>
+            <Text style={{textDecorationLine: 'underline'}}>Don't have an account? Sign up</Text>
           </TouchableOpacity>
         </View>
       </View>
