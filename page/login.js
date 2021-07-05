@@ -72,10 +72,10 @@ export default class Login extends React.Component {
 
           <View style={styles.contentView}>
             <Text style={{fontSize: 30, fontWeight: 'bold', alignSelf: 'center', padding: 30}}>
-              Login
+              Вход
             </Text>
             <Input
-              placeholder='Name'
+              placeholder='Имя пользователя'
               leftIcon={
                 <Icon
                   name='user'
@@ -91,7 +91,7 @@ export default class Login extends React.Component {
             />  
 
             <Input
-              placeholder='Password'
+              placeholder='Пароль'
               leftIcon={
                 <Icon
                   name='key'
@@ -109,7 +109,7 @@ export default class Login extends React.Component {
             <TouchableOpacity onPress={() => {
               this.props.navigation.navigate("Reset Password")
               }}>
-              <Text style={{alignSelf: 'flex-end', padding: 5, textDecorationLine: 'underline'}}>Forgot Password?</Text>
+              <Text style={{alignSelf: 'flex-end', padding: 5, textDecorationLine: 'underline'}}>Забыл пароль?</Text>
             </TouchableOpacity>
             <Button
               icon={
@@ -119,7 +119,7 @@ export default class Login extends React.Component {
                   color="white"
                 />
               }
-              title='Sign in'
+              title='Войти'
               titleStyle={{color: 'white', fontSize: 20, padding: 20}}
               buttonStyle={{borderRadius: 50, backgroundColor: BASIC_COLOR}}
               onPress={this.onSubmit}
@@ -130,7 +130,7 @@ export default class Login extends React.Component {
           <TouchableOpacity onPress={() => {
               this.props.navigation.navigate("Sign Up")
             }}>
-            <Text style={{textDecorationLine: 'underline'}}>Don't have an account? Sign up</Text>
+            <Text style={{textDecorationLine: 'underline'}}>Нет учетной записи? Зарегистрироваться</Text>
           </TouchableOpacity>
         </View>
       </View>
