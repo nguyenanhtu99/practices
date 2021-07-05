@@ -20,7 +20,9 @@ export default class DetailInfo extends React.Component {
       rating: 0,
       content: '',
       modalVisible: false,
-      visible: false
+      visible: false,
+      showMore: false,
+      countFeedbacks: 0
     }
 
     getHeader = async() => {
@@ -32,19 +34,6 @@ export default class DetailInfo extends React.Component {
       }
       
       return headers
-    }
-
-    getImage = async (imageName) => {
-      let headers = await this.getHeader();
-      try {
-        const getUrl = await API.get(`/uploadserver/get_image/${imageName}`, {headers});
-        return getUrl.data
-        // const response = await axios.create({baseURL: getUrl.data}).get("");
-        // let image = response.data.image;
-        // return image;
-      } catch (err) {
-        console.log("image not found")
-      }
     }
 
     getRating = (rating) => {
@@ -79,9 +68,9 @@ export default class DetailInfo extends React.Component {
         }
       } else {
         showMessage({
-          message: "Đánh giá không thành công !",
+          message: "Оценка не удалась !",
           type: 'danger',
-          description: "Bạn không thể đánh giá 0 sao",
+          description: "Вы не можете оценить 0 звезд",
           duration: 5000,
           floating: true,
           icon: {
@@ -94,8 +83,6 @@ export default class DetailInfo extends React.Component {
     setProduct = async (product) => {
       const headers = await this.getHeader();
 
-      let image = await this.getImage(product.template.imageUrl);
-
          this.setState({
             product: {
               productId: product.id,
@@ -105,7 +92,7 @@ export default class DetailInfo extends React.Component {
               mfgDate: this.getDay(product.mfgDate),
               producerId: product.template.producerId,
               description: product.template.description,
-              image: image
+              image: product.template.imageUrl
             },
             visible: true
           });
@@ -122,10 +109,8 @@ export default class DetailInfo extends React.Component {
     setFeedbacks = async (templateId) => {
       const headers = await this.getHeader();
 
-      this.setState({reviews: []});
-
       try {
-        let response = await API.get(`/product/feedbacks/${templateId}`, {headers});
+        let response = await API.get(`/product/feedbacks/${templateId}/${this.state.countFeedbacks}/4`, {headers});
 
         let avg = response.data.average_rate;
         let total = response.data.num_feedbacks;
@@ -133,6 +118,17 @@ export default class DetailInfo extends React.Component {
 
         let feedbacks = response.data.feedbacks;
 
+        if (feedbacks.length === 4) {
+          feedbacks.pop();
+          this.setState({
+            showMore: true,
+            countFeedbacks: this.state.countFeedbacks + 3
+          })
+        } else {
+          this.setState({
+            showMore: false 
+          })
+        }
         if (feedbacks) {
           feedbacks.map(async feedback  => {
             let date = this.getDay(feedback.created_at);
@@ -196,19 +192,19 @@ export default class DetailInfo extends React.Component {
                         </View>
                       </View>
                       
-                      <Text style={styles.textTitle}>Nhà sản xuất: {this.state.product.producer}</Text> 
+                      <Text>Режиссер: {this.state.product.producer}</Text> 
 
-                      <Text style={styles.textTitle}>Ngày sản xuất: {this.state.product.mfgDate}</Text> 
+                      <Text>Дата производства: {this.state.product.mfgDate}</Text> 
 
-                      <Text style={styles.textTitle}>Hạn sử dụng: {this.state.product.expDate}</Text> 
-                  </View>    
+                      <Text>Дата истечения срока: {this.state.product.expDate}</Text> 
+                  </View>
 
                 <View style={{ alignItems: 'center', padding: 7, backgroundColor: 'white', borderRadius: 50, borderColor: BASIC_COLOR, borderWidth: 1}}>
-                  <Text style={styles.textTitle}>Mã số :</Text> 
-                  <Text style={styles.textTitle}>{this.state.product.productId}</Text> 
+                  <Text>Номер ID:</Text> 
+                  <Text>{this.state.product.productId}</Text> 
                 </View>
                   <Button 
-                        title="Xem danh sách nhà phân phối"
+                        title="Посмотреть список дистрибьюторов"
                         type="outline"
                         icon={
                           <Icon
@@ -225,13 +221,13 @@ export default class DetailInfo extends React.Component {
                           }}
                   />
                 
-                  <Text style={{fontSize: 20, fontWeight: 'bold', padding: 5, borderBottomWidth: 1, borderColor: BASIC_COLOR}}>Mô tả</Text>
-                  <Text>{this.state.product.description}</Text>
+                  <Text style={styles.textContent}>Описание</Text>
+                  <Text style={{borderTopWidth: 1, borderColor: BASIC_COLOR}}>{this.state.product.description}</Text>
               
               {
               <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <Text style={{fontSize: 20, fontWeight: 'bold', padding: 5}}>Đánh giá</Text>
+                  <Text style={styles.textContent}>Отзыв</Text>
                   <Button
                     icon={
                       <Icon
@@ -240,9 +236,9 @@ export default class DetailInfo extends React.Component {
                         color={BASIC_COLOR}
                       />
                     }
-                    title='Thêm đánh giá'
+                    title='Оценивать'
                     type='outline'
-                    titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 10}}
+                    titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 3}}
                     buttonStyle={{borderColor: 'white'}}
                     onPress={() => this.setState({modalVisible: true})}
                   />
@@ -251,7 +247,7 @@ export default class DetailInfo extends React.Component {
                 {
                 this.state.modalVisible &&
                 <View style={styles.modal}>
-                  <Text style={{fontSize: 18, padding: 5, borderBottomWidth: 1, borderColor: BASIC_COLOR, marginBottom: 10}}>Đánh giá của bạn</Text>
+                  <Text style={{fontSize: 18, padding: 5, borderBottomWidth: 1, borderColor: BASIC_COLOR, marginBottom: 10}}>Ваш отзыв</Text>
                   <Rating
                     size={30}
                     enableRating={true}
@@ -259,7 +255,7 @@ export default class DetailInfo extends React.Component {
                     getRating={this.getRating}
                   />
                   <Input
-                    placeholder='Đánh giá ở đây'
+                    placeholder='Отзыв'
                     onChangeText={value => {
                       this.setState({password: value})
                     }}
@@ -268,7 +264,7 @@ export default class DetailInfo extends React.Component {
                     onChangeText={value => {this.setState({content: value})}}
                   />
                   <Button
-                    title="Lưu đánh giá"
+                    title="Сохранить"
                     type="outline"
                     titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 10}}
                     buttonStyle={{borderRadius: 40, borderColor: BASIC_COLOR, borderWidth: 1}}
@@ -289,12 +285,12 @@ export default class DetailInfo extends React.Component {
                     return (
                       <View style={{borderColor: BASIC_COLOR, borderTopWidth: 1, padding: 5}} key={index}>
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                          <Text style={{fontSize: 18, padding: 5}}>{item.customerName}</Text>
+                          <Text style={{fontSize: 17, padding: 5}}>{item.customerName}</Text>
                           <Text style={{fontSize: 13, fontStyle: 'italic', padding: 6, color:'gray'}}>{item.date}</Text>
                         </View>
                         <Rating
                           rating={item.rating}
-                          size={25}
+                          size={20}
                         />  
                         <Text style={{padding: 5}}>{item.content}</Text>
                       </View>
@@ -302,21 +298,23 @@ export default class DetailInfo extends React.Component {
                     })
                   }
 
-                  {/* <Button
-                    icon={
-                      <Icon
-                        name="caret-down"
-                        size={20}
-                        color={BASIC_COLOR}
-                      />
-                    }
-                    title='Xem thêm đánh giá'
-                    type='outline'
-                    titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 10}}
-                    buttonStyle={{borderColor: 'white'}}
-                    onPress={() => {}}
-                    containerStyle={{padding: 10}}
-                  /> */}
+                  { this.state.showMore &&
+                    <Button
+                      icon={
+                        <Icon
+                          name="caret-down"
+                          size={20}
+                          color={BASIC_COLOR}
+                        />
+                      }
+                      title='Больше отзывов'
+                      type='outline'
+                      titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 10}}
+                      buttonStyle={{borderColor: 'white'}}
+                      onPress={() => {this.setFeedbacks(this.state.product.templateId)}}
+                      containerStyle={{padding: 10}}
+                    />
+                  }
               </View>
               }
                 </View>
@@ -330,7 +328,7 @@ export default class DetailInfo extends React.Component {
                   color={BASIC_COLOR}
                   style={{alignSelf: 'center'}}
                 />
-                <Text style={{fontSize: 25, alignSelf: 'center', color: BASIC_COLOR}}>Hãy quét mã QR</Text>
+                <Text style={{fontSize: 25, alignSelf: 'center', color: BASIC_COLOR}}>Отсканируйте QR-код</Text>
               </TouchableOpacity>
             )
           }
@@ -346,13 +344,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
 },
   titleView: {
-    // elevation: 10,
-    // borderRadius: 5,
-    // marginTop: 10,
-    // marginBottom: 10,
-    // width: "80%",
-    // backgroundColor: 'white',
-    // alignSelf: 'center'
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderColor: BASIC_COLOR,
@@ -367,23 +358,19 @@ const styles = StyleSheet.create({
       textAlign: "center", 
       fontWeight: "300", 
       padding: 10,
-      // fontStyle:'italic',
   },
 
   contentView: {
     backgroundColor: "white",
-    // borderTopRightRadius: 30,
     flex: 1,
   },
   scrollView: {
     flex: 1
   },
-  textTitle: {
-    fontSize: 13,
-    marginBottom: 2
-  },
   textContent: {
     fontSize: 18,
+    fontWeight: 'bold',
+    padding: 5
   },
   cardSummary: {
     borderWidth:1, 
