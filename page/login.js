@@ -27,9 +27,9 @@ export default class Login extends React.Component {
       this.props.navigation.navigate('Main');
 
       showMessage({
-        message: "Đăng nhập thành công !",
+        message: "Успешный вход в систему !",
         type: "success",
-        description: `Đăng nhập thành công với tài khoản: ${input.username}`,
+        description: '',
         duration: 4000,
         floating: true,
         icon: {
@@ -38,9 +38,9 @@ export default class Login extends React.Component {
       })
     } catch (err) {
         showMessage({
-          message: "Đăng nhập không thành công !",
+          message: "Неудачный вход !",
           type: "danger",
-          description: "Tên đăng nhập hoặc mật khẩu không đúng",
+          description: "Логин или пароль неверны",
           duration: 4000,
           floating: true,
           icon: {

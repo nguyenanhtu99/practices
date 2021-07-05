@@ -47,13 +47,13 @@ export default class SignUp extends React.Component {
       } else {
         this.setState({
           email: '',
-          emailError: "Email đã được sử dụng"
+          emailError: "Этот электронный адрес уже занят"
         })
       }
     } else {
       this.setState({
         email: '',
-        emailError: "Email không hợp lệ"
+        emailError: "Неверный адрес электронной почты"
       })
     }
   }
@@ -64,7 +64,7 @@ export default class SignUp extends React.Component {
       return response.data
     } catch (err) {
       showMessage({
-        message: "Lỗi !",
+        message: "Ошибка !",
         type: 'danger',
         description: err.message,
         duration: 5000,
@@ -86,13 +86,13 @@ export default class SignUp extends React.Component {
         } else {
           this.setState({
             name: '',
-            nameError: "Tên đăng nhập đã tồn tại"
+            nameError: "Имя пользователя доступно"
           })
         }
     } else {
       this.setState({
         name: '',
-        nameError: `Tên hiển thị phải từ ${USERNAME_LENGTH} ký tự trở lên`
+        nameError: `Имя пользователя должно состоять из ${USERNAME_LENGTH} или более символов`
       }) 
     }
   
@@ -115,9 +115,9 @@ export default class SignUp extends React.Component {
         this.props.navigation.navigate("Login", {message: "Sign up success !", name: input.name});
 
         showMessage({
-          message: "Đăng ký thành công !",
+          message: "Успешная регистрация !",
           type: "success",
-          description: `Đăng ký thành công với tài khoản: ${input.name}`,
+          description: '',
           duration: 4000,
           floating: true,
           icon: {
@@ -127,9 +127,9 @@ export default class SignUp extends React.Component {
 
       } catch (err) {
         showMessage({
-          message: "Đăng ký không thành công !",
+          message: "Регистрация не удалась !",
           type: 'danger',
-          description: "Hãy kiểm tra lại kết nối mạng",
+          description: "Пожалуйста, проверьте сетевое соединение",
           duration: 5000,
           floating: true,
           icon: {
@@ -139,9 +139,9 @@ export default class SignUp extends React.Component {
       }
     } else {
       showMessage({
-        message: "Đăng ký không thành công !",
+        message: "Регистрация не удалась !",
         type: 'danger',
-        description: "Hãy kiểm tra lại thông tin",
+        description: "Пожалуйста, проверьте информацию еще раз",
         duration: 5000,
         floating: true,
         icon: {
@@ -306,7 +306,7 @@ export default class SignUp extends React.Component {
             onChangeText={value => {
               this.validate_password(value) 
                 ? this.setState({ password: value, passwordError: ''}) 
-                : this.setState({ password: '', passwordError: `Mật khẩu phải từ ${PASSWORD_LENGTH} ký tự trở lên`})
+                : this.setState({ password: '', passwordError: `Пароль должен состоять из ${PASSWORD_LENGTH} или более символов.`})
             }}
           />
           <Input
@@ -325,7 +325,7 @@ export default class SignUp extends React.Component {
             onChangeText={value => {
               this.validate_confirm_password(value, this.state.password) 
                 ? this.setState({ confirmPassword: value, confirmPasswordError: ''}) 
-                : this.setState({ confirmPassword: '', confirmPasswordError: "Mật khẩu không trùng khớp"})
+                : this.setState({ confirmPassword: '', confirmPasswordError: "Пароль не подходит"})
             }}
           />
             <Button
