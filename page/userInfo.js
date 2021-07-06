@@ -25,6 +25,30 @@ class UserInfo extends Component {
     }
   }
 
+  getImage = async (imageName) => {
+    let headers = await this.getHeader();
+    try {
+      const getUrl = await API.get(`/uploadserver/get_image/${imageName}`, {headers});
+
+      const response = await axios.create({baseURL: getUrl.data}).get("");
+      let image = response.data.image;
+      this.setState({image});
+    } catch (err) {
+      console.log("avatar not found")
+    }
+  }
+
+  getHeader = async() => {
+      
+    const token = "Bearer " + await getData(TOKEN_KEY);
+
+    const headers = {
+      'Authorization': token
+    }
+    
+    return headers
+  }
+
   setAvatar = async (image) => {
     let headers = await this.getHeader();
     try {
@@ -47,7 +71,36 @@ class UserInfo extends Component {
         message: "Thay đổi ảnh đại diện không thành công!",
         type: 'danger',
         description: err.message,
-        duration: 4000,
+        duration: 3000,
+        floating: true,
+        icon: {
+          icon: 'danger', position: "right"
+        },
+      })
+    }
+  }
+
+  saveAvatar = async (image) => {
+    let headers = await this.getHeader();
+    try {
+      await API.put(`account/users/avatar/${image}`, null, {headers});
+
+      showMessage({
+        message: "Сменить аватар успешно !",
+        type: "success",
+        duration: 3000,
+        floating: true,
+        icon: {
+          icon: "success", position: "right"
+        },
+      })
+    }
+    catch (err) {
+      showMessage({
+        message: "Не удалось изменить аватар !",
+        type: 'danger',
+        description: err.message,
+        duration: 3000,
         floating: true,
         icon: {
           icon: 'danger', position: "right"
@@ -102,9 +155,9 @@ class UserInfo extends Component {
   }
 
   changeAvatar = () => {
-    const BUTTONS = ['Chụp ảnh', 'Chọn ảnh từ thư viện', 'Hủy'];
+    const BUTTONS = ['Сфотографировать', 'Выбрать фото из галереи', 'Отмена'];
     ActionSheet.show(
-      {options: BUTTONS, cancelButtonIndex: 2, title: 'Chọn 1 bức ảnh'},
+      {options: BUTTONS, cancelButtonIndex: 2, title: 'Выберите фото'},
       buttonIndex => {
         switch (buttonIndex) {
           case 0:
@@ -120,23 +173,15 @@ class UserInfo extends Component {
     )
   }
 
-  getHeader = async() => {
-      
-    const token = "Bearer " + await getData(TOKEN_KEY);
-
-    const headers = {
-      'Authorization': token
-    }
-    
-    return headers
-  }
-
   setUser = async () => {
     let headers = await this.getHeader();
 
     try {
       const response = await API.get("/account/users/profile", {headers});
       let user = response.data;
+
+      await this.getImage(user.image);
+
       let info = {
         id: user.id,
         display_name: user.displayName,
@@ -148,8 +193,7 @@ class UserInfo extends Component {
 
       this.setState({ 
         info, 
-        infoChange: info,
-        image: user.image
+        infoChange: info
        });
     } catch (err) {
       console.error(err);
@@ -167,35 +211,6 @@ class UserInfo extends Component {
       || info.display_name !== infoChange.display_name)
   }
 
-  saveAvatar = async (image) => {
-    let headers = await this.getHeader();
-    try {
-      await API.put(`account/users/avatar/${image}`, null, {headers});
-
-      showMessage({
-        message: "Thay đổi avatar thành công !",
-        type: "success",
-        duration: 4000,
-        floating: true,
-        icon: {
-          icon: "success", position: "right"
-        },
-      })
-    }
-    catch (err) {
-      showMessage({
-        message: "Thay đổi avatar không thành công !",
-        type: 'danger',
-        description: err.message,
-        duration: 4000,
-        floating: true,
-        icon: {
-          icon: 'danger', position: "right"
-        },
-      })
-    }
-  }
-
   changeInfo = async () => {
     let headers = await this.getHeader();
     if (this.checkEdit()) {
@@ -211,7 +226,7 @@ class UserInfo extends Component {
         await API.put(`/account/users/${user.id}`, info, {headers});
   
         showMessage({
-          message: "Thay đổi thông tin thành công !",
+          message: "Информация успешно изменена !",
           type: "success",
           duration: 4000,
           floating: true,
@@ -227,7 +242,7 @@ class UserInfo extends Component {
 
       } catch (err) {
         showMessage({
-          message: "Thay đổi thông tin không thành công !",
+          message: "Не удалось изменить информацию !",
           type: 'danger',
           description: err.message,
           duration: 4000,
@@ -239,9 +254,9 @@ class UserInfo extends Component {
       }
     } else {
       showMessage({
-        message: "Thay đổi thông tin không thành công !",
+        message: "Не удалось изменить информацию !",
         type: 'warning',
-        description: "Bạn chưa thay đổi thông tin nào.",
+        description: "Вы не меняли никакой информации.",
         duration: 4000,
         floating: true,
         icon: {
