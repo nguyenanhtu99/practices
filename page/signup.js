@@ -112,7 +112,7 @@ export default class SignUp extends React.Component {
       try {
         const response = await API.post('/account/users', input);
         console.log(response.data);
-        this.props.navigation.navigate("Login", {message: "Sign up success !", name: input.name});
+        this.props.navigation.navigate("Login");
 
         showMessage({
           message: "Успешная регистрация !",
@@ -154,96 +154,6 @@ export default class SignUp extends React.Component {
 
   render(){
   return (
-    // <View style={styles.container}>
-    //   <View style = {styles.contentView}>
-    //     <ScrollView>
-    //       <Input
-    //         placeholder='Tên đăng nhập'
-    //         leftIcon={
-    //           <Icon
-    //             name='user'
-    //             size={24}
-    //             color={BASIC_COLOR}
-    //           />
-    //         }
-    //         errorStyle={{ color: 'red' }}
-    //         errorMessage={this.state.nameError}
-    //         onChangeText={ value => this.validate_username(value) }
-    //         autoCapitalize="none"
-    //       />  
-    //       <Input
-    //         placeholder='Email'
-    //         leftIcon={
-    //           <Icon
-    //             name='envelope'
-    //             size={24}
-    //             color={BASIC_COLOR}
-    //           />
-    //         }
-    //         autoCapitalize="none"
-    //         errorStyle={{ color: 'red' }}
-    //         errorMessage={this.state.emailError}
-    //         onChangeText={value => {
-    //           this.validate_email(value) 
-    //         }}
-    //       />
-    //       <Input
-    //         placeholder='Mật khẩu'
-    //         secureTextEntry={true}
-    //         leftIcon={
-    //           <Icon
-    //             name='key'
-    //             size={24}
-    //             color={BASIC_COLOR}
-    //           />
-    //         }
-    //         autoCapitalize="none"
-    //         errorStyle={{ color: 'red' }}
-    //         errorMessage={this.state.passwordError}
-    //         onChangeText={value => {
-    //           this.validate_password(value) 
-    //             ? this.setState({ password: value, passwordError: ''}) 
-    //             : this.setState({ password: '', passwordError: `Mật khẩu phải từ ${PASSWORD_LENGTH} ký tự trở lên`})
-    //         }}
-    //       />
-    //       <Input
-    //         placeholder='Nhập lại mật khẩu'
-    //         secureTextEntry={true}
-    //         leftIcon={
-    //           <Icon
-    //             name='key'
-    //             size={24}
-    //             color={BASIC_COLOR}
-    //           />
-    //         }
-    //         autoCapitalize="none"
-    //         errorStyle={{ color: 'red' }}
-    //         errorMessage={this.state.confirmPasswordError}
-    //         onChangeText={value => {
-    //           this.validate_confirm_password(value, this.state.password) 
-    //             ? this.setState({ confirmPassword: value, confirmPasswordError: ''}) 
-    //             : this.setState({ confirmPassword: '', confirmPasswordError: "Mật khẩu không trùng khớp"})
-    //         }}
-    //       />
-    //     </ScrollView>
-    //     <View style={{margin: 20}}>
-    //       <Button
-    //         icon={
-    //           <Icon
-    //             name="user-plus"
-    //             size={25}
-    //             color={BASIC_COLOR}
-    //           />
-    //         }
-    //         title='Đăng ký'
-    //         type='outline'
-    //         titleStyle={{color: BASIC_COLOR, fontSize: 20, padding: 30}}
-    //         buttonStyle={{borderRadius: 30, borderColor: BASIC_COLOR}}
-    //         onPress={this.onSubmit}
-    //       />
-    //     </View>
-    //   </View>
-    // </View>
     <View style={styles.container}>
         <View>
           <Text

@@ -120,19 +120,6 @@ class UserInfo extends Component {
     )
   }
 
-  getImage = async (imageName) => {
-    let headers = await this.getHeader();
-    try {
-      const getUrl = await API.get(`/uploadserver/get_image/${imageName}`, {headers});
-
-      const response = await axios.create({baseURL: getUrl.data}).get("");
-      let image = response.data.image;
-      this.setState({image});
-    } catch (err) {
-      console.log("avatar not found")
-    }
-  }
-
   getHeader = async() => {
       
     const token = "Bearer " + await getData(TOKEN_KEY);
@@ -158,10 +145,12 @@ class UserInfo extends Component {
         phone: user.phone,
         image: user.image
       }
-      if (user.image) {
-        this.getImage(user.image)
-      }
-      this.setState({ info, infoChange: info });
+
+      this.setState({ 
+        info, 
+        infoChange: info,
+        image: user.image
+       });
     } catch (err) {
       console.error(err);
     }
@@ -331,7 +320,7 @@ class UserInfo extends Component {
                 color='white'
               />
             }
-            title="Đăng xuất"
+            title="Выйти"
             type='outline'
             titleStyle={{color: 'white', fontSize: 15, padding: 5}}
             buttonStyle={{borderColor: BASIC_COLOR}}
@@ -347,7 +336,7 @@ class UserInfo extends Component {
                 color={BASIC_COLOR}
               />
             }
-            title="Đổi mật khẩu"
+            title="Изменить пароль"
             type='outline'
             titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 5}}
             buttonStyle={{borderColor: 'white'}}
@@ -356,8 +345,8 @@ class UserInfo extends Component {
           
           <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
             <Input
-              label="Họ và tên"
-              placeholder='Họ và tên'
+              label="Фамилия"
+              placeholder='Фамилия'
               leftIcon={
                 <Icon
                   name='user'
@@ -376,8 +365,8 @@ class UserInfo extends Component {
             />
 
             <Input
-              label="Email"
-              placeholder='Email'
+              label="Почта"
+              placeholder='Почта'
               leftIcon={
                 <Icon
                   name='envelope'
@@ -396,8 +385,8 @@ class UserInfo extends Component {
             />
 
             <Input
-              label="Số điện thoại"
-              placeholder='Số điện thoại'
+              label="Телефон"
+              placeholder='Телефон'
               leftIcon={
                 <Icon
                   name='phone'
@@ -427,7 +416,7 @@ class UserInfo extends Component {
                       style={{padding: 5}}
                     />
                   }
-                  title="Thay đổi thông tin"
+                  title="Изменить информацию"
                   type='outline'
                   titleStyle={{color: BASIC_COLOR, fontSize: 18, padding: 5}}
                   buttonStyle={{borderRadius: 30, borderColor: BASIC_COLOR}}
@@ -444,7 +433,7 @@ class UserInfo extends Component {
                     style={{padding: 5}}
                   />
                 }
-                title="Hủy"
+                title="Отмена"
                 type='outline'
                 titleStyle={{color: 'red', fontSize: 18, padding: 5}}
                 buttonStyle={{borderRadius: 30, borderColor: 'white'}}
@@ -462,7 +451,7 @@ class UserInfo extends Component {
                     style={{padding: 5}}
                   />
                 }
-                title="Lưu thay đổi"
+                title="Сохранить"
                 type='outline'
                 titleStyle={{color: BASIC_COLOR, fontSize: 18, padding: 5}}
                 buttonStyle={{borderRadius: 30, borderColor: 'white'}}
