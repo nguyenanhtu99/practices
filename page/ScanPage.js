@@ -45,16 +45,6 @@ class QrCodeCamera extends Component {
         this.setState({ location: { latitude, longitude }})
       },
       error => {
-        // showMessage({
-        //   message: "Không thể định vị vị trí của bạn !",
-        //   type: 'danger',
-        //   description: "Hãy chắc chắn rằng bạn đang bật định vị",
-        //   duration: 5000,
-        //   floating: true,
-        //   icon: {
-        //     icon: 'danger', position: "right"
-        //   },
-        // })
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     )
@@ -75,15 +65,27 @@ class QrCodeCamera extends Component {
   onSuccess = async (e) => {
     let productId = e.data;
     this.setState({scan: false});
-    console.log(e);
+    // console.log(e);
     let headers = await this.getHeader();
 
     try {
       const response = await API.get(`/product/products/${productId}`, {headers});
-        console.log(response)
-        if (response /*&& this.state.location !== null*/) {
+        // console.log(response)
+        if (response.data /*&& this.state.location !== null*/) {
           // this.saveHistory(productId);
           this.props.navigation.navigate("detail", {product: response.data});
+        } else {
+          this.setState({scan: true});
+          showMessage({
+            message: "Ошибка сканирования кода !",
+            type: 'danger',
+            description: "QR-код неверен. Попробуйте еще раз.",
+            duration: 5000,
+            floating: true,
+            icon: {
+              icon: 'danger', position: "right"
+            },
+          })
         }
     } catch (err) {
       showMessage({
