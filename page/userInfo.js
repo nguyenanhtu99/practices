@@ -343,7 +343,7 @@ class UserInfo extends Component {
             onPress={() => this.logout()}
           />
 
-          <Button
+          {/* <Button
             icon={
               <Icon
                 name='lock'
@@ -356,7 +356,7 @@ class UserInfo extends Component {
             titleStyle={{color: BASIC_COLOR, fontSize: 15, padding: 5}}
             buttonStyle={{borderColor: 'white'}}
             onPress={() => this.changePassword()}
-          />
+          /> */}
           
           <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
             <Input

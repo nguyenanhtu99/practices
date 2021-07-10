@@ -203,7 +203,7 @@ export default class DetailInfo extends React.Component {
                   <Text>Номер ID:</Text> 
                   <Text>{this.state.product.productId}</Text> 
                 </View>
-                  <Button 
+                  {/* <Button 
                         title="Посмотреть список дистрибьюторов"
                         type="outline"
                         icon={
@@ -219,7 +219,7 @@ export default class DetailInfo extends React.Component {
                         onPress={() => {
                             this.props.navigation.navigate("distributors", {productId: this.state.product.productId})
                           }}
-                  />
+                  /> */}
                 
                   <Text style={styles.textContent}>Описание</Text>
                   <Text style={{borderTopWidth: 1, borderColor: BASIC_COLOR}}>{this.state.product.description}</Text>
